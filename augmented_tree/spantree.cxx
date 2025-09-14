@@ -41,11 +41,11 @@ std::string Node::print() const {
     dot += to_string() + ";\n";
     if (left) {
         dot += left->print();
-        dot +=  to_string() + " -> " + left->to_string() + " [color=blue];\n";
+        dot += to_string() + " -> " + left->to_string() + " [color=blue];\n";
     }
     if (right) {
         dot += right->print();
-        dot +=  to_string() + " -> " + right->to_string() + " [color=green];\n";
+        dot += to_string() + " -> " + right->to_string() + " [color=green];\n";
     }
     if (left and right) {
         dot += "{rank=same; " + left->to_string() + "; " + right->to_string() + ";}\n";
