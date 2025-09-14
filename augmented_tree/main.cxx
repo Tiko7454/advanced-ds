@@ -1,9 +1,18 @@
 #include <iostream>
-#include "spantree.h"
+#include "spantree.hxx"
 int main() {
-    Spantree tree{1, 5};
-    tree.insert({2,3});
-    tree.insert({0,12});
-    tree.insert({-4,13});
-    tree.print();
+    Spantree spantree{
+        {12, 18},
+        {5, 22},
+        {16, 18},
+        {22,35},
+        {24,29},
+        {13, 16},
+        {9, 19},
+        {2,6},
+        {15,17},
+        {4,5},
+        {8,31},
+    };
+    spantree.print();
 }

@@ -22,6 +22,7 @@ struct Node {
     double span;
 
     Node* insert(Interval v);
+    const Node* search(std::size_t k) const;
 
     std::string print() const;
     std::string to_string() const {
@@ -29,11 +30,7 @@ struct Node {
     }
 
     Node(Node* parent, Interval value)
-        : left{}, right{}, parent{parent}, value{value}, span{value.b} {
-        if (parent) {
-            parent->update();
-        }
-    }
+        : left{}, right{}, parent{parent}, value{value}, span{value.b} {}
 
     ~Node() {
         delete left;
@@ -48,10 +45,11 @@ class Spantree {
 
   public:
     Spantree(double a, double b) : Spantree{{a, b}} {}
-    Spantree(Interval value) : root{std::make_unique<Node>(nullptr, value)} {}
+    Spantree(std::initializer_list<Interval> il);
     void insert(Interval value) { root->insert(value); }
     const Node* find(int value) const;
     void print() const;
+    const Node* search(std::size_t k) const { return root->search(k); }
 };
 
 #endif // SPANTREE_H
