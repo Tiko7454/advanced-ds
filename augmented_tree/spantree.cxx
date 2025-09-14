@@ -1,5 +1,6 @@
 #include "spantree.hxx"
 #include <fstream>
+#include <iostream>
 
 Node* Node::insert(Interval v) {
     if (v < value) {
@@ -71,6 +72,25 @@ Spantree::Spantree(std::initializer_list<Interval> il) {
     }
 }
 
-const Node* Node::search(std::size_t k) const {
+const Node* Node::search(double q) const {
+    if (contains(q)) {
+        return this;
+    }
+    if (left and q < left->span) {
+        return left->search(q);
+    }
+    if (right and q > value.a) {
+        return right->search(q);
+    }
     return nullptr;
+}
+
+void Node::print_lines() const {
+    std::cout << value.to_line_string() << "\n";
+    if (left) {
+        left->print_lines();
+    }
+    if (right) {
+        right->print_lines();
+    }
 }

@@ -12,6 +12,10 @@ struct Interval {
     bool operator==(Interval i) const { return a == i.a and b == i.b; }
 
     std::string to_string() const { return std::format("[{}, {}]", a, b); }
+    std::string to_line_string() const {
+        return std::string(static_cast<unsigned>(a), ' ') +
+               std::string(static_cast<unsigned>(b - a), '-');
+    }
 };
 
 struct Node {
@@ -22,12 +26,13 @@ struct Node {
     double span;
 
     Node* insert(Interval v);
-    const Node* search(std::size_t k) const;
+    const Node* search(double q) const;
 
     std::string print() const;
     std::string to_string() const {
         return "\"" + value.to_string() + "(" + std::to_string(span) + ")\"";
     }
+    void print_lines() const;
 
     Node(Node* parent, Interval value)
         : left{}, right{}, parent{parent}, value{value}, span{value.b} {}
@@ -38,6 +43,7 @@ struct Node {
     }
 
     void update();
+    bool contains(double x) const { return value.a <= x && x <= value.b; }
 };
 
 class Spantree {
@@ -49,7 +55,8 @@ class Spantree {
     void insert(Interval value) { root->insert(value); }
     const Node* find(int value) const;
     void print() const;
-    const Node* search(std::size_t k) const { return root->search(k); }
+    void print_lines() const { root->print_lines(); }
+    const Node* search(double q) const { return root->search(q); }
 };
 
 #endif // SPANTREE_H
