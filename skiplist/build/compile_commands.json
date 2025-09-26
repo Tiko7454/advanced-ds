@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/tiko7454/homework/advanced-ds/skiplist/build",
+  "command": "/usr/bin/c++ -I/home/tiko7454/homework/advanced-ds/skiplist -g -std=gnu++23 -o CMakeFiles/main.dir/main.cxx.o -c /home/tiko7454/homework/advanced-ds/skiplist/main.cxx",
+  "file": "/home/tiko7454/homework/advanced-ds/skiplist/main.cxx",
+  "output": "/home/tiko7454/homework/advanced-ds/skiplist/build/CMakeFiles/main.dir/main.cxx.o"
+},
+{
+  "directory": "/home/tiko7454/homework/advanced-ds/skiplist/build",
+  "command": "/usr/bin/c++ -I/home/tiko7454/homework/advanced-ds/skiplist -g -std=gnu++23 -o CMakeFiles/main.dir/skiplist.cxx.o -c /home/tiko7454/homework/advanced-ds/skiplist/skiplist.cxx",
+  "file": "/home/tiko7454/homework/advanced-ds/skiplist/skiplist.cxx",
+  "output": "/home/tiko7454/homework/advanced-ds/skiplist/build/CMakeFiles/main.dir/skiplist.cxx.o"
+}
+]

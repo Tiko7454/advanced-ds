@@ -1,0 +1,4 @@
+/home/tiko7454/homework/advanced-ds/skiplist/build/CMakeFiles/main.dir
+/home/tiko7454/homework/advanced-ds/skiplist/build/CMakeFiles/extra_clean.dir
+/home/tiko7454/homework/advanced-ds/skiplist/build/CMakeFiles/edit_cache.dir
+/home/tiko7454/homework/advanced-ds/skiplist/build/CMakeFiles/rebuild_cache.dir
