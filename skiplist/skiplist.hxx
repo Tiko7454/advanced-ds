@@ -23,7 +23,7 @@ class Node {
 };
 
 struct SkipListIterator {
-    Node* node;
+    const Node* node;
     SkipListIterator operator++(int) {
         SkipListIterator tmp{node->nextElements[0]};
         node = node->nextElements[0];
@@ -33,8 +33,8 @@ struct SkipListIterator {
         node = node->nextElements[0];
         return *this;
     }
-    Node& operator*() { return *node; }
-    Node* operator->() { return node; }
+    const Node& operator*() { return *node; }
+    const Node* operator->() { return node; }
     bool operator==(SkipListIterator& other) { return node == other.node; }
 };
 
@@ -49,6 +49,7 @@ public:
     SkipListIterator begin() { return {header}; }
     SkipListIterator end() { return {trailer}; }
     void remove(int value);
+    SkipListIterator find(int value) const;
     void resize_header_and_trailer(int height);
     void print() const;
     ~SkipList();

@@ -60,6 +60,21 @@ SkipList::~SkipList() {
     delete trailer;
 }
 
+SkipListIterator SkipList::find(int value) const {
+    Node* current_node = header;
+    int current_height = header->height - 1;
+    while (current_height >= 0) {
+        while (current_node->nextElements[current_height]->value < value) {
+            current_node = current_node->nextElements[current_height];
+        }
+        if (current_node->nextElements[current_height]->value == value) {
+            return {current_node->nextElements[current_height]};
+        }
+        current_height--;
+    }
+    return {trailer};
+}
+
 SkipList& SkipList::insert(int value) {
     Node* new_node = Node::construct_node(value, probability);
     resize_header_and_trailer(new_node->height + 1);
