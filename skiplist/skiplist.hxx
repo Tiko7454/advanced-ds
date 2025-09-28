@@ -4,9 +4,11 @@
 #include <cassert>
 #include <cstddef>
 class SkipList;
+class SkipListIterator;
 
 class Node {
     friend SkipList;
+    friend SkipListIterator;
     int value;
     int height;
     Node* nextElements[1];
@@ -20,6 +22,19 @@ class Node {
     static Node* construct_node_from_height(int height);
 };
 
+struct SkipListIterator {
+    Node* node;
+    SkipListIterator operator++(int) {
+        SkipListIterator tmp{node->nextElements[0]};
+        node = node->nextElements[0];
+        return tmp;
+    }
+    SkipListIterator& operator++() {
+        node = node->nextElements[0];
+        return *this;
+    }
+};
+
 class SkipList {
     Node* header;
     Node* trailer;
@@ -27,6 +42,10 @@ class SkipList {
 public:
     SkipList(double probability = 0.5);
     SkipList& insert(int value);
+
+    SkipListIterator begin() { return {header}; }
+    SkipListIterator end() { return {trailer}; }
+    void remove(int value);
     void resize_header_and_trailer(int height);
     void print() const;
     ~SkipList() {
