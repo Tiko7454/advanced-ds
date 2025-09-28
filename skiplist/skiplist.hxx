@@ -33,6 +33,9 @@ struct SkipListIterator {
         node = node->nextElements[0];
         return *this;
     }
+    Node& operator*() { return *node; }
+    Node* operator->() { return node; }
+    bool operator==(SkipListIterator& other) { return node == other.node; }
 };
 
 class SkipList {
@@ -48,10 +51,7 @@ public:
     void remove(int value);
     void resize_header_and_trailer(int height);
     void print() const;
-    ~SkipList() {
-        delete header;
-        // TODO...
-    }
+    ~SkipList();
 
 };
 

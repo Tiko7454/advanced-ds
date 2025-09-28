@@ -49,6 +49,17 @@ void SkipList::remove(int value) {
     delete node;
 }
 
+SkipList::~SkipList() {
+    Node* old_node = header;
+    Node* current_node = old_node->nextElements[0];
+    while (old_node != trailer) {
+        delete old_node;
+        old_node = current_node;
+        current_node = old_node->nextElements[0];
+    }
+    delete trailer;
+}
+
 SkipList& SkipList::insert(int value) {
     Node* new_node = Node::construct_node(value, probability);
     resize_header_and_trailer(new_node->height + 1);
