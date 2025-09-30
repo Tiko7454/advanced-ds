@@ -32,6 +32,49 @@ SkipList::SkipList(double probability)
     header->nextElements[1] = trailer;
 }
 
+void SkipList::remove(int value) {
+    Node* current_node = header;
+    int current_height = header->height - 1;
+    Node* node = nullptr;
+    while (current_height >= 0) {
+        while (current_node->nextElements[current_height]->value < value) {
+            current_node = current_node->nextElements[current_height];
+        }
+        if (current_node->nextElements[current_height]->value == value) {
+            node = current_node->nextElements[current_height];
+            current_node->nextElements[current_height] = node->nextElements[current_height];
+        }
+        current_height--;
+    }
+    delete node;
+}
+
+SkipList::~SkipList() {
+    Node* old_node = header;
+    Node* current_node = old_node->nextElements[0];
+    while (old_node != trailer) {
+        delete old_node;
+        old_node = current_node;
+        current_node = old_node->nextElements[0];
+    }
+    delete trailer;
+}
+
+SkipListIterator SkipList::find(int value) const {
+    Node* current_node = header;
+    int current_height = header->height - 1;
+    while (current_height >= 0) {
+        while (current_node->nextElements[current_height]->value < value) {
+            current_node = current_node->nextElements[current_height];
+        }
+        if (current_node->nextElements[current_height]->value == value) {
+            return {current_node->nextElements[current_height]};
+        }
+        current_height--;
+    }
+    return {trailer};
+}
+
 SkipList& SkipList::insert(int value) {
     Node* new_node = Node::construct_node(value, probability);
     resize_header_and_trailer(new_node->height + 1);
