@@ -3,10 +3,14 @@
 
 #include <cassert>
 #include <cstddef>
+#include <functional>
 class SkipList;
 class SkipListIterator;
 
 class Node {
+public:
+    int get_value() const { return value; }
+private:
     friend SkipList;
     friend SkipListIterator;
     int value;
@@ -35,25 +39,29 @@ struct SkipListIterator {
     }
     const Node& operator*() { return *node; }
     const Node* operator->() { return node; }
-    bool operator==(SkipListIterator& other) { return node == other.node; }
+    bool operator==(SkipListIterator other) { return node == other.node; }
 };
 
 class SkipList {
-    Node* header;
-    Node* trailer;
-    double probability;
 public:
     SkipList(double probability = 0.5);
     SkipList& insert(int value);
 
-    SkipListIterator begin() { return {header}; }
-    SkipListIterator end() { return {trailer}; }
+    SkipListIterator begin() const { return {header}; }
+    SkipListIterator end() const { return {trailer}; }
     void remove(int value);
     SkipListIterator find(int value) const;
     void resize_header_and_trailer(int height);
     void print() const;
     ~SkipList();
 
+private:
+    void process(int value, std::function<bool(Node*, int)> f) const;
+
+private:
+    Node* header;
+    Node* trailer;
+    double probability;
 };
 
 #endif

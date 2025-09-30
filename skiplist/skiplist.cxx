@@ -32,23 +32,6 @@ SkipList::SkipList(double probability)
     header->nextElements[1] = trailer;
 }
 
-void SkipList::remove(int value) {
-    Node* current_node = header;
-    int current_height = header->height - 1;
-    Node* node = nullptr;
-    while (current_height >= 0) {
-        while (current_node->nextElements[current_height]->value < value) {
-            current_node = current_node->nextElements[current_height];
-        }
-        if (current_node->nextElements[current_height]->value == value) {
-            node = current_node->nextElements[current_height];
-            current_node->nextElements[current_height] = node->nextElements[current_height];
-        }
-        current_height--;
-    }
-    delete node;
-}
-
 SkipList::~SkipList() {
     Node* old_node = header;
     Node* current_node = old_node->nextElements[0];
@@ -60,7 +43,18 @@ SkipList::~SkipList() {
     delete trailer;
 }
 
-SkipListIterator SkipList::find(int value) const {
+void SkipList::remove(int value) {
+    Node* node = nullptr;
+    auto f = [&node](Node* current_node, int current_height){
+        node = current_node->nextElements[current_height];
+        current_node->nextElements[current_height] = node->nextElements[current_height];
+        return false;
+    };
+    process(value, f);
+    delete node;
+}
+
+void SkipList::process(int value, std::function<bool(Node*, int)> f) const {
     Node* current_node = header;
     int current_height = header->height - 1;
     while (current_height >= 0) {
@@ -68,11 +62,22 @@ SkipListIterator SkipList::find(int value) const {
             current_node = current_node->nextElements[current_height];
         }
         if (current_node->nextElements[current_height]->value == value) {
-            return {current_node->nextElements[current_height]};
+            if (f(current_node, current_height)) {
+                return;
+            }
         }
         current_height--;
     }
-    return {trailer};
+}
+
+SkipListIterator SkipList::find(int value) const {
+    SkipListIterator si{end()};
+    auto f = [&](Node* current_node, int current_height){
+        si.node = current_node->nextElements[current_height];
+        return true;
+    };
+    process(value, f);
+    return si;
 }
 
 SkipList& SkipList::insert(int value) {
@@ -84,6 +89,10 @@ SkipList& SkipList::insert(int value) {
     while (current_height >= 0) {
         while (current_node->nextElements[current_height]->value < value) {
             current_node = current_node->nextElements[current_height];
+        }
+        if (current_node->nextElements[current_height]->value == value) {
+            delete new_node;
+            return *this;
         }
         if (current_height < new_node->height) {
             new_node->nextElements[current_height] = current_node->nextElements[current_height];
