@@ -6,7 +6,7 @@
 #include <print>
 
 Node* Node::construct_node(int value, double probability) {
-    std::default_random_engine re{};
+    static std::default_random_engine re{};
     std::uniform_real_distribution<double> dist(0, 1);
     int height = 1;
     for (; dist(re) < probability; height++);
