@@ -65,3 +65,22 @@ void FenwickTree::print() const {
         std::println("{}", level);
     }
 }
+
+void FenwickTree::pop_back() {
+    update(tree[0].size() - 1, m.neutral);
+    tree[0].pop_back();
+    auto size = tree[0].size();
+    int i = 0;
+    while (size > 1) {
+        i++;
+        size++;
+        size /= 2;
+        if (tree[i].size() == size) {
+            break;
+        }
+        tree[i].pop_back();
+    }
+    if (size == 1) {
+        tree.pop_back();
+    }
+}

@@ -23,8 +23,10 @@ public:
     void update(size_t idx, int value);
     void print() const;
     int query(size_t src, size_t dest) const;
-    int push_back(int value);
-    int pop_back();
+    // int push_back(int value);
+    void pop_back();
+    int size() const { return end() - begin(); }
+    bool empty() const { return size() == 0; }
 private:
     std::vector<std::vector<int>> tree;
     Monoid m;
