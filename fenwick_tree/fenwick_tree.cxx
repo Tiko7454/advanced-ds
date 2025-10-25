@@ -67,9 +67,9 @@ void FenwickTree::print() const {
 }
 
 void FenwickTree::pop_back() {
-    update(tree[0].size() - 1, m.neutral);
+    update(size() - 1, m.neutral);
     tree[0].pop_back();
-    auto size = tree[0].size();
+    auto size = this->size();
     int i = 0;
     while (size > 1) {
         i++;
