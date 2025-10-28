@@ -12,13 +12,14 @@ hash_t generate_hash_function();
 
 class BloomFilter {
 public:
-    BloomFilter(int k, int n);
+    BloomFilter(size_t k, size_t n);
     BloomFilter& insert(std::string_view str);
     bool exists(std::string_view str) const;
     double get_probability() const;
 private:
     std::vector<bool> content;
     std::vector<hash_t> hashes;
+    size_t count;
     void push(unsigned long long x) {
         content[x % content.size()] = 1;
     }
