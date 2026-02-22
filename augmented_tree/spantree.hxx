@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <string>
-#include <format>
+#include <iterator>
 
 struct Interval {
     double a, b;
@@ -44,6 +44,8 @@ struct Node {
 
     void update();
     bool contains(double x) const { return value.a <= x && x <= value.b; }
+    template<std::output_iterator<Point> It>
+    void query(It gde);
 };
 
 class Spantree {
@@ -57,6 +59,8 @@ class Spantree {
     void print() const;
     void print_lines() const { root->print_lines(); }
     const Node* search(double q) const { return root->search(q); }
+    template<std::output_iterator<Point> It>
+    void query(It gde)
 };
 
 #endif // SPANTREE_H
